@@ -1,11 +1,15 @@
-0.  TODO
-1.  TODO
-2.  TODO
-3.  TODO
-4.  TODO
-5.  TODO
-6.  TODO
-7.  TODO
-8.  TODO
-9.  TODO
-10. TODO
+0.  The longest word in the dictionary which is 45 characters long
+1.  Returns the resource usage measure of a specified int
+2.  16
+3.  We the location of the variables because we want to get the usage and store in those variables of rusage type. When we send the variable through a function only a copy of that variable is sent and not the orignal variable. This can be refrenced to the swap example.
+4.  First you declare an array whose length is the lenght of the longest word + 1 for the null terminator. Then we check if we are comming across an alphabet or a apostophes if we are we store the character in an array word. We also check if the word is not a word that would be 
+too long and not in the dictionary. if so we skip over that word till we reach \0 using the isalpha function. In the second condition we check if the word contains a digit we skip over that word with the same logic as for the long word but this time using the function alphanumerical.
+Now we finally have the word we add '\0' at the end of the word as a null terminator
+5.  In fscanf we read a string which is terminated by \0 but in the dictionaries provided to us different strings are seprated by \n
+6. char* points to a value that can be changed and the pointer can also be made to point to something else. const chaar *'s value that points can be changed but not the value inside it
+7.  The data structure i used was trie becasue it has a constanct loadup, delete and lookup time. It contains a datatype x which is a bool value which represents if the end of a word is reached in the datastructure. We also have an array 
+The length of the array is 26 i.e the numbers of letters in the english library and each value inside the array is a pointer that points to a similar data structure trie
+8.  The first time i got it to load my programm was quiet fast because of the fact that it was not working correctly. 
+9.  The change i made was instead of in the loop fgetc function which messed up the pointer created by file i/o functions. Then the second thing i added to make my code work was 
+updataing trav pointer back to the head again so the first character of the word follows the past across the root node
+10. My code was not able to take into accound special characters

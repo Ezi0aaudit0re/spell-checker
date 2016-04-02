@@ -9,11 +9,17 @@
 #define ALPHA_SIZE 26
 #define OFFSET  97
 
+
 typedef struct tries 
 {
     bool x;
     struct tries* alpha[ALPHA_SIZE + 1];
 }tries;
+
+
+/**
+ * A function that unload calls which is called recursively 
+ */
 
 
 tries* head = NULL;
@@ -27,10 +33,8 @@ bool check(const char* word)
     tries* trav = head;   
     for(int i = 0, n = strlen(word); i < n; i++ )
     {   
-        if(trav->alpha[tolower(word[i]) - 97] != NULL)
-        {
-            trav = trav->alpha[tolower(word[i]) - 97];
-        }
+        if(trav->alpha[tolower(word[i]) - OFFSET] != NULL)
+            trav = trav->alpha[tolower(word[i]) - OFFSET];
             
     }
     if(trav->x == true)
@@ -53,18 +57,15 @@ bool load(const char* dictionary)
     head = malloc(sizeof(tries));
     tries* trav = head;
     
-    char c = 0;
+    unsigned int c = 0;
     
     // iterate through every character 
     while(c != EOF) 
    {
        c = fgetc(file);
        
-       
        if( c != '\n' && c != EOF)
        {
-        //   if(c == '\')
-        //         c = ALPHA_SIZE + OFFSET 
                 
             if ( trav->alpha[c - OFFSET] == NULL)
                 trav->alpha[c - OFFSET] = malloc(sizeof(tries));
@@ -95,11 +96,25 @@ unsigned int size(void)
     return 0;
 }
 
+
+void unloadtries(tries* head)
+{
+    
+    for(int c = 1; c < ALPHA_SIZE ; c++ )
+    {
+        if(head->alpha[c] != NULL)
+            unloadtries(head->alpha[c ]);
+    }
+    free(head);
+
+}
 /**
  * Unloads dictionary from memory.  Returns true if successful else false.
  */
 bool unload(void)
 {
-    // TODO
-    return false;
+    // we create a function that takes in an argument and unloads
+    unloadtries(head);
+    return true;
 }
+
