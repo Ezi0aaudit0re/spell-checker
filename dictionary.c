@@ -6,18 +6,15 @@
 
 #include "dictionary.h"
 
+#define ALPHA_SIZE 26
+#define OFFSET  97
+
 typedef struct tries 
 {
     bool x;
-    struct tries* alpha[27];
+    struct tries* alpha[ALPHA_SIZE + 1];
 }tries;
 
-// tries* head = NULL;
-
-// int main(void)
-// {
-//     load("dictionaries/small");
-// }
 
 tries* head = NULL;
 
@@ -46,49 +43,37 @@ bool check(const char* word)
  */
 bool load(const char* dictionary)
 {
-   head = malloc(sizeof(tries));
 
     // open the file and check if it was opened properly
     FILE* file = fopen(dictionary, "r");
     if(file == NULL)
         printf("Something went wrong\n");
+        
+    head = malloc(sizeof(tries));
+    tries* trav = head;
     
-   
-    char a;
+    char c = 0;
     // iterate through every character 
-    while((a =fgetc(file)) != EOF) 
+    while(c != EOF) 
    {
-        tries* trav = head;
-        // if(!trav->alpha[c-97]) 
-        //     trav->alpha[c - 97] = malloc(sizeof(tries));
-        char word[LENGTH + 1];
-        int index = 0;
-        char c;
-        //fseek(file, -1, SEEK_CUR);
-        while( (c = fgetc(file)) != '\n')
-        {
-            word[index] = c;
-            index++;
-            
-        }
-        word[index] = '\0';
-        for(int i = 0; i < index; i++)
-        {
-            
-            if(trav != NULL && !trav->alpha[word[i] - 97])
-                trav->alpha[word[i] - 97] = malloc(sizeof(tries));
-                
-            if(word[i+1] != '\0')
-                trav = trav->alpha[word[i] - 97];
-            else
-                trav->x = true;
-                
-        }
-               
-        // if (c == '\n')
-        //     trav->x = true;
-       fseek(file, index, SEEK_CUR); 
+       c = fgetc(file);
        
+       
+       if( c != '\n' && c != EOF)
+       {
+        //   if(c == '\')
+        //         c = ALPHA_SIZE + OFFSET 
+                
+            if ( trav->alpha[c - OFFSET] == NULL)
+                trav->alpha[c - OFFSET] = malloc(sizeof(tries));
+            
+            trav = trav->alpha[c - OFFSET];
+       }
+       else if ( c == '\n')
+       {
+          trav->x = true;
+          trav = head;
+       }
     }
     fclose(file);
     return true;
