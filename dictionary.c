@@ -17,6 +17,7 @@ typedef struct tries
 
 
 tries* head = NULL;
+int number = 0;
 
 /**
  * Returns true if word is in dictionary else false.
@@ -53,6 +54,7 @@ bool load(const char* dictionary)
     tries* trav = head;
     
     char c = 0;
+    
     // iterate through every character 
     while(c != EOF) 
    {
@@ -69,8 +71,11 @@ bool load(const char* dictionary)
             
             trav = trav->alpha[c - OFFSET];
        }
+       
+       // update the value at that location and update head
        else if ( c == '\n')
        {
+          number++;
           trav->x = true;
           trav = head;
        }
@@ -84,7 +89,9 @@ bool load(const char* dictionary)
  */
 unsigned int size(void)
 {
-    // TODO
+    if(number != 0)
+        return number;
+    
     return 0;
 }
 
